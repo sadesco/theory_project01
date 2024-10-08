@@ -3,6 +3,6 @@
 Hamiltonian Path and Cycle and Traveling Salesman Problem
 
 Team Members:
-Sadie Co
-Eleanor Frederick
+Sadie Co,
+Eleanor Frederick, and
 Molly Trickett
