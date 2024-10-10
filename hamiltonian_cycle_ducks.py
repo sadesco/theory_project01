@@ -1,1 +1,1 @@
-# Hamiltonian Cycle
+# Hamiltonian Path
