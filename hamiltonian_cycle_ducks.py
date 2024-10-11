@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# Hamiltonian Cycle 
-
 import itertools
 import random
 import time
@@ -32,6 +29,3 @@ def time_hamiltonian(graph):
     elapsed_time = (end_time - start_time) * 1e6  # Time in microseconds
     return cycle, elapsed_time
 
-=======
-# Hamiltonian Path
->>>>>>> 8478e799ee8e8d71cf3b734d34210c281bcb07f7
