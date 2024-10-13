@@ -32,7 +32,7 @@ def hamiltonian_paths(graph, vertices):
 
 
 #generate random graphs to test
-def random(num_vertices, edge_probability=0.5):
+def generate_random(num_vertices, edge_probability=0.5):
     graph = nx.gnp_random_graph(num_vertices, edge_probability)
     matrix = nx.to_numpy_arry(graph, dtype=int)
     return matrix
@@ -54,16 +54,16 @@ def plot_times():
     times = []
     
     for size in sizes: 
-        graph = random(size, edge_probability=0.5)
+        graph = generate_random(size, edge_probability=0.5)
         execution = measure_time(graph)
         times.append(execution)
         print("Size: {}, Execution time: {:.4f} seconds".format(size, execution))
         
-        plt.plot(sizes, times, marker='o')
-        plt.title("Hamiltonian Path Solver Performance")
-        plt.xlabel("Number of vertices")
-        plt.ylabel("Execution time (seconds)")
-        plt.show()
+    plt.plot(sizes, times, marker='o')
+    plt.title("Hamiltonian Path Solver Performance")
+    plt.xlabel("Number of vertices")
+    plt.ylabel("Execution time (seconds)")
+    plt.show()
         
 if __name__ == "__main__":
     plot_times()
