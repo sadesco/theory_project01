@@ -1,21 +1,19 @@
-# Hamiltonian Cycle Brute Force Solver 
+# Hamiltonian Cycle Solver 
 
 import time
 import random
 import networkx as nx
 import matplotlib.pyplot as plt
 
-def is_hamiltonian_cycle(graph, path):
+def check(graph, path):
     """
-    A Hamiltonian starts and ends on the same vertex and visits every edge once. 
+    A Hamiltonian cycle starts and ends on the same vertex and visits every edge once. 
 
     This function takes a graph represented by an adjancency matrix and a proposed 
     path and it checks if said path is a Hamiltonian cycle. 
 
     """
-    # loop through each consecutive pair of verticies in the given path 
     for i in range(len(path) - 1):
-
         # if there is no edge between two verticies, false is immediatley retuned 
         if graph[path[i]][path[i+1]] == 0:
             return False
@@ -42,7 +40,7 @@ def hamiltonian_cycles(graph, vertices):
         # if there is a full path 
         if index == n:
             # check if the generated path is a hamiltonian cycle 
-            if is_hamiltonian_cycle(graph, path):
+            if check(graph, path):
                 # if it is valid - add this path to the list of cycles 
                 cycles.append(path[:]) 
         
@@ -50,11 +48,9 @@ def hamiltonian_cycles(graph, vertices):
         else:
             # attempt at placing every remaining vertex at the current index 
             for i in range(index, n):
-                # swap current vertex with i-th vertex
                 path[index], path[i] = path[i], path[index]
                 # recursively call to generate new paths 
                 generate_path(path, index + 1)
-                # swap back to restore order for next iteration
                 path[index], path[i] = path[i], path[index]
    
     # start generating paths
@@ -63,7 +59,7 @@ def hamiltonian_cycles(graph, vertices):
     # return the succesful paths 
     return cycles
 
-def generate_random_graph(num_vertices, edge_probability=0.5):
+def random_graph(num_vertices, edge_probability=0.5):
     """
     Generates a random graph using NetworkX (as was recommended in class).
     This function then takes that graph and converts it to an adj. matrix. 
@@ -79,7 +75,7 @@ def generate_random_graph(num_vertices, edge_probability=0.5):
 
     return adj_matrix
 
-def measure_execution_time(graph):
+def measure_time(graph):
     """
     Measures the time taken by the above functions to find all possible
     Hamilton cycles in a given graph. 
@@ -105,14 +101,14 @@ def test_solver_performance():
     It records the execution time and plots to show an O(n!) complexity. 
 
     """
-    sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represnet the number of verticies 
+    sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represent the number of verticies 
     execution_times = [] # list to store the execution time for each graph sizer
 
     for size in sizes:
         # generate a random graph with the current number of verticies 
-        graph = generate_random_graph(size, edge_probability=0.5)
+        graph = random_graph(size, edge_probability=0.5)
         # measure how long it takes to solve the Hamiltonian cycle problem 
-        exec_time = measure_execution_time(graph)
+        exec_time = measure_time(graph)
         # store the execution time 
         execution_times.append(exec_time)
         # print the size of the graph and how long it took to execute 
