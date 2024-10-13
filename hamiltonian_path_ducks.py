@@ -40,7 +40,7 @@ def hamiltonian_paths(graph, vertices):
 
 
 #generate random graphs to test
-def random(num_vertices, edge_probability=0.5):
+def generate_random(num_vertices, edge_probability=0.5):
     graph = nx.gnp_random_graph(num_vertices, edge_probability)
     matrix = nx.to_numpy_arry(graph, dtype=int)
     return matrix
