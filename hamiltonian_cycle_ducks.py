@@ -135,28 +135,38 @@ def test_solver_performance():
     plt.show()
 
 def test():
+    """ 
+     Tests for success of the program 
+     
     """
-    Test the Hamiltonian cycle solver with known test cases: one that should have a Hamiltonian cycle
-    and one that should not.
-    """
-    # Example 1: A complete graph (which should have a Hamiltonian cycle)
-    complete_graph = nx.complete_graph(5)
-    complete_matrix = nx.to_numpy_array(complete_graph, dtype=int)
-    complete_cycles = measure_time(complete_matrix)
-    if complete_cycles:
-        print("Test 1 Passed: Hamiltonian cycle found in complete graph.")
-    else:
-        print("Test 1 Failed: No Hamiltonian cycle found in complete graph.")
+    # Test graph with a Hamiltonian cycle
+    # Graph: 0-1-2-3-0
+    graph_with_cycle = np.array([[0, 1, 0, 1],
+                                  [1, 0, 1, 0],
+                                  [0, 1, 0, 1],
+                                  [1, 0, 1, 0]])
+    vertices_with_cycle = list(range(len(graph_with_cycle)))
+    cycles = hamiltonian_cycles(graph_with_cycle, vertices_with_cycle)
 
-    # Example 2: A disconnected graph (which should not have a Hamiltonian cycle)
-    disconnected_graph = nx.Graph()
-    disconnected_graph.add_edges_from([(0, 1), (2, 3)])  # Two disconnected components
-    disconnected_matrix = nx.to_numpy_array(disconnected_graph, dtype=int)
-    disconnected_cycles = measure_time(disconnected_matrix)
-    if not disconnected_cycles:
-        print("Test 2 Passed: No Hamiltonian cycle found in disconnected graph.")
+    print("Testing graph with a Hamiltonian cycle:")
+    if cycles:
+        print(f"Found Hamiltonian cycles: {cycles}")
     else:
-        print("Test 2 Failed: Hamiltonian cycle found in disconnected graph.")
+        print("No Hamiltonian cycle found, but there should be one!")
+
+    # Test graph without a Hamiltonian cycle
+    # Graph: 0-1, 2 disconnected
+    graph_without_cycle = np.array([[0, 1, 0],
+                                     [1, 0, 0],
+                                     [0, 0, 0]])
+    vertices_without_cycle = list(range(len(graph_without_cycle)))
+    cycles = hamiltonian_cycles(graph_without_cycle, vertices_without_cycle)
+
+    print("Testing graph without a Hamiltonian cycle:")
+    if cycles:
+        print("Found Hamiltonian cycle, but there shouldn't be one!")
+    else:
+        print("Correctly identified no Hamiltonian cycle.")
 
 # run the whole program 
 if __name__ == "__main__":
