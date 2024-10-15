@@ -1,9 +1,9 @@
 # Hamiltonian Cycle Solver 
 
 import time
-import random
 import networkx as nx
 import matplotlib.pyplot as plt
+import numpy as np
 
 def check(graph, path):
     """
@@ -31,6 +31,13 @@ def hamiltonian_cycles(graph, vertices):
     of the verticies and checks if they form a Hamiltonian cycle. 
 
     """
+    # Convert adjacency matrix back to a NetworkX graph to check connectivity
+    G = nx.from_numpy_array(graph)
+    
+    # Check if the graph is connected
+    if not nx.is_connected(G):
+        return []  # Return no cycles if the graph is disconnected
+    
     n = len(vertices) # number of verticies to loop through 
     cycles = [] # number of successful Hamiltonian cycles 
     
@@ -102,25 +109,58 @@ def test_solver_performance():
 
     """
     sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represent the number of verticies 
-    execution_times = [] # list to store the execution time for each graph sizer
+    avg_times = [] # list to store the execution time for each graph sizer
+    trials = 5 # number of trials per graph size 
 
     for size in sizes:
-        # generate a random graph with the current number of verticies 
-        graph = random_graph(size, edge_probability=0.5)
-        # measure how long it takes to solve the Hamiltonian cycle problem 
-        exec_time = measure_time(graph)
-        # store the execution time 
-        execution_times.append(exec_time)
+        exec_times = []
+        for _ in range(trials): 
+            # generate a random graph with the current number of verticies 
+            graph = random_graph(size, edge_probability=0.5)
+            # measure how long it takes to solve the Hamiltonian cycle problem 
+            exec_time = measure_time(graph)
+            # store the execution time 
+            exec_times.append(exec_time)
+        
+        # take the average
+        avg_time = np.mean(exec_times)
+        avg_times.append(avg_time)
+
         # print the size of the graph and how long it took to execute 
-        print(f"Size: {size}, Execution time: {exec_time:.4f} seconds")
+        print(f"Size: {size}, Execution time: {avg_time:.4f} seconds")
 
     # plot execution times 
-    plt.plot(sizes, execution_times, marker='o')
+    plt.plot(sizes, avg_times, marker='o')
     plt.title("Hamiltonian Cycle Solver Performance")
     plt.xlabel("Number of vertices")
-    plt.ylabel("Execution time (seconds)")
+    plt.ylabel("Average execution time (seconds)")
     plt.show()
+
+def test():
+    """
+    Test the Hamiltonian cycle solver with known test cases: one that should have a Hamiltonian cycle
+    and one that should not.
+    """
+    # Example 1: A complete graph (which should have a Hamiltonian cycle)
+    complete_graph = nx.complete_graph(5)
+    complete_matrix = nx.to_numpy_array(complete_graph, dtype=int)
+    complete_cycles = measure_time(complete_matrix)
+    if complete_cycles:
+        print("Test 1 Passed: Hamiltonian cycle found in complete graph.")
+    else:
+        print("Test 1 Failed: No Hamiltonian cycle found in complete graph.")
+
+    # Example 2: A disconnected graph (which should not have a Hamiltonian cycle)
+    disconnected_graph = nx.Graph()
+    disconnected_graph.add_edges_from([(0, 1), (2, 3)])  # Two disconnected components
+    disconnected_matrix = nx.to_numpy_array(disconnected_graph, dtype=int)
+    disconnected_cycles = measure_time(disconnected_matrix)
+    if not disconnected_cycles:
+        print("Test 2 Passed: No Hamiltonian cycle found in disconnected graph.")
+    else:
+        print("Test 2 Failed: Hamiltonian cycle found in disconnected graph.")
 
 # run the whole program 
 if __name__ == "__main__":
+    test() 
     test_solver_performance()
