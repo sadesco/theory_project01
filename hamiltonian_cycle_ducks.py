@@ -111,7 +111,7 @@ def test_performance():
     sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represent the number of verticies 
     avg_times = [] 
     all_times = {}
-    trials = 5 # number of trials per graph size 
+    trials = 15 # number of trials per graph size 
 
     for size in sizes:
         exec_times = []
