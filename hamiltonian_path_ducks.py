@@ -110,6 +110,42 @@ def test():
     else:
         print("Test 2 Failed: Hamiltonian path found in disconnected graph.")
 
+def test():
+    """
+    Tests the Hamiltonian path solver with known graphs.
+    It checks a graph with a Hamiltonian path and a graph without one.
+    """
+
+    # Test graph with a Hamiltonian path
+    # Graph: 0-1-2-3
+    graph_with_path = np.array([[0, 1, 0, 0],
+                                 [1, 0, 1, 0],
+                                 [0, 1, 0, 1],
+                                 [0, 0, 1, 0]])
+    vertices_with_path = list(range(len(graph_with_path)))
+    paths = hamiltonian_paths(graph_with_path, vertices_with_path)
+
+    print("Testing graph with a Hamiltonian path:")
+    if paths:
+        print(f"Found Hamiltonian paths: {paths}")
+    else:
+        print("No Hamiltonian path found, but there should be one!")
+
+    # Test graph without a Hamiltonian path
+    # Graph: 0-1, 2 disconnected
+    graph_without_path = np.array([[0, 1, 0],
+                                    [1, 0, 0],
+                                    [0, 0, 0]])
+    vertices_without_path = list(range(len(graph_without_path)))
+    paths = hamiltonian_paths(graph_without_path, vertices_without_path)
+
+    print("Testing graph without a Hamiltonian path:")
+    if paths:
+        print("Found Hamiltonian path, but there shouldn't be one!")
+    else:
+        print("Correctly identified no Hamiltonian path.")
+
+
 if __name__ == "__main__":
     test()
     plot_times()
