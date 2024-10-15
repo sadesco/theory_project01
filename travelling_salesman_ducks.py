@@ -84,36 +84,53 @@ def measure_tsp_execution_time(graph):
 # Generate graphs of varying sizes and test the TSP solver
 def test_tsp():
     """
-    This function tests the performance of the traveling salesman solver for randomly 
-    generated graphs of different sizes. 
-    
-    It records the execution time and plots them. 
+    This function tests the performance of the Hamiltonian cycle solver for randomly
+    generated graphs of different sizes.
+
+    It records the execution time and plots to show an O(n!) complexity.
+
     """
-     
-    sizes = [4, 5, 6, 7, 8, 9, 10] # test sizes 
+    sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represent the number of verticies
     avg_times = []
-    trials = 15
+    all_times = {}
+    trials = 15 # number of trials per graph size
 
     for size in sizes:
         exec_times = []
-        for _ in range(trials): 
-            # generate a random graph with the current number of verticies 
+        for _ in range(trials):
+            # generate a random graph with the current number of verticies
             graph = generate_random_tsp_graph(size, edge_probability=0.5)
             exec_time = measure_tsp_execution_time(graph)
             exec_times.append(exec_time)
-        
+
+        # store all execution times for this given size
+        all_times[size] = exec_times
+
+        # take the average
         avg_time = np.mean(exec_times)
         avg_times.append(avg_time)
 
-        # print the size of graph, the best path found and the execution time 
+        # print the size of the graph and how long it took to execute
         print(f"Size: {size}, Execution time: {avg_time:.4f} seconds")
 
-    # plot the execution times 
-    plt.plot(sizes, avg_times, marker='o')
-    plt.title("Traveling Salesman Solver Performance")
+    # plot
+    plt.figure(figsize=(10, 6))
+
+    # scatter plot
+    for size in sizes:
+        jittered_size = [size + np.random.uniform(-0.1, 0.1) for _ in all_times[size]]
+        plt.scatter(jittered_size, all_times[size], color='blue', alpha=0.6, label='Execution times' if size == sizes[0] else "")
+
+    # plot average execution times
+    plt.plot(sizes, avg_times, marker='o', color='red', label='Average execution time')
+
+    plt.title("Hamiltonian Cycle Solver Performance")
     plt.xlabel("Number of vertices")
     plt.ylabel("Execution time (seconds)")
+    plt.legend()
+    plt.grid(True)
     plt.show()
+
 
 def test():
     """
@@ -142,6 +159,9 @@ def test():
 
     print("Testing graph with a different configuration:")
     print(f"Best path: {best_path}, Minimum cost: {min_cost}")
+
+
+
 
 # run performance test 
 if __name__ == "__main__":
