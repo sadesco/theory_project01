@@ -1,5 +1,5 @@
 import time
-import random
+import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -65,15 +65,23 @@ def plot_times():
     """
     #sizes that represent the number of vertices 
     sizes = [4, 5, 6, 7, 8, 9, 10] 
-    times = []
+    avg_times = []
+    trials = 5 # number of trials
     
     for size in sizes: 
-        graph = generate_random(size, edge_probability=0.5)
-        execution = measure_time(graph)
-        times.append(execution)
-        print("Size: {}, Execution time: {:.4f} seconds".format(size, execution))
+        exec_times = []
+        for _ in range(trials):
+            graph = generate_random(size, edge_probability=0.5)
+            execution = measure_time(graph)
+            exec_times.append(execution)
         
-    plt.plot(sizes, times, marker='o')
+        # take average
+        avg_time = np.mean(exec_times)
+        avg_times.append(avg_time)
+
+        print("Size: {}, Execution time: {:.4f} seconds".format(size, avg_time))
+        
+    plt.plot(sizes, avg_times, marker='o')
     plt.title("Hamiltonian Path Solver Performance")
     plt.xlabel("Number of vertices")
     plt.ylabel("Execution time (seconds)")
@@ -86,7 +94,7 @@ def test():
     # Example 1: A complete graph (which should have a Hamiltonian path)
     complete_graph = nx.complete_graph(5)
     complete_matrix = nx.to_numpy_array(complete_graph, dtype=int)
-    _, complete_paths = measure_time(complete_matrix)
+    complete_paths = measure_time(complete_matrix)
     if complete_paths:
         print("Test 1 Passed: Hamiltonian path found in complete graph.")
     else:
@@ -96,7 +104,7 @@ def test():
     disconnected_graph = nx.Graph()
     disconnected_graph.add_edges_from([(0, 1), (2, 3)])  # Two disconnected components
     disconnected_matrix = nx.to_numpy_array(disconnected_graph, dtype=int)
-    _, disconnected_paths = measure_time(disconnected_matrix)
+    disconnected_paths = measure_time(disconnected_matrix)
     if not disconnected_paths:
         print("Test 2 Passed: No Hamiltonian path found in disconnected graph.")
     else:
