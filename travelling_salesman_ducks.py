@@ -82,7 +82,7 @@ def measure_tsp_execution_time(graph):
     return end_time - start_time
 
 # Generate graphs of varying sizes and test the TSP solver
-def test_tsp_solver_performance():
+def test_tsp():
     """
     This function tests the performance of the traveling salesman solver for randomly 
     generated graphs of different sizes. 
@@ -92,7 +92,7 @@ def test_tsp_solver_performance():
      
     sizes = [4, 5, 6, 7, 8, 9, 10] # test sizes 
     avg_times = []
-    trials = 5
+    trials = 15
 
     for size in sizes:
         exec_times = []
@@ -146,4 +146,4 @@ def test():
 # run performance test 
 if __name__ == "__main__":
     test()
-    test_tsp_solver_performance()
+    test_tsp()
