@@ -109,7 +109,7 @@ def test_solver_performance():
 
     """
     sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represent the number of verticies 
-    avg_times = [] # list to store the execution time for each graph sizer
+    avg_times = [] 
     trials = 5 # number of trials per graph size 
 
     for size in sizes:
@@ -117,9 +117,7 @@ def test_solver_performance():
         for _ in range(trials): 
             # generate a random graph with the current number of verticies 
             graph = random_graph(size, edge_probability=0.5)
-            # measure how long it takes to solve the Hamiltonian cycle problem 
             exec_time = measure_time(graph)
-            # store the execution time 
             exec_times.append(exec_time)
         
         # take the average
@@ -129,7 +127,7 @@ def test_solver_performance():
         # print the size of the graph and how long it took to execute 
         print(f"Size: {size}, Execution time: {avg_time:.4f} seconds")
 
-    # plot execution times 
+    # plot 
     plt.plot(sizes, avg_times, marker='o')
     plt.title("Hamiltonian Cycle Solver Performance")
     plt.xlabel("Number of vertices")
