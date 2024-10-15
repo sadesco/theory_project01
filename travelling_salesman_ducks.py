@@ -115,6 +115,35 @@ def test_tsp_solver_performance():
     plt.ylabel("Execution time (seconds)")
     plt.show()
 
+def test():
+    """
+    Tests the Traveling Salesman solver with known graphs.
+    It checks a small graph with a known optimal path and another graph.
+    """
+
+    # Test graph with a known optimal path
+    # Graph: 0-1 (10), 0-2 (15), 1-2 (5)
+    graph_with_known_path = np.array([[0, 10, 15],
+                                       [10, 0, 5],
+                                       [15, 5, 0]])
+    vertices_with_known_path = list(range(len(graph_with_known_path)))
+    best_path, min_cost = traveling_salesman(graph_with_known_path, vertices_with_known_path)
+
+    print("Testing graph with a known optimal path:")
+    print(f"Best path: {best_path}, Minimum cost: {min_cost}")
+
+    # Test graph with a different configuration
+    # Graph: 0-1 (2), 0-2 (9), 1-2 (6)
+    graph_different = np.array([[0, 2, 9],
+                                 [2, 0, 6],
+                                 [9, 6, 0]])
+    vertices_different = list(range(len(graph_different)))
+    best_path, min_cost = traveling_salesman(graph_different, vertices_different)
+
+    print("Testing graph with a different configuration:")
+    print(f"Best path: {best_path}, Minimum cost: {min_cost}")
+
 # run performance test 
 if __name__ == "__main__":
+    test()
     test_tsp_solver_performance()
