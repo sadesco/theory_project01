@@ -79,7 +79,7 @@ def measure_tsp_execution_time(graph):
     best_path, min_cost = traveling_salesman(graph, vertices)
     end_time = time.time()
 
-    return best_path, min_cost, end_time - start_time
+    return end_time - start_time
 
 # Generate graphs of varying sizes and test the TSP solver
 def test_tsp_solver_performance():
@@ -91,20 +91,25 @@ def test_tsp_solver_performance():
     """
      
     sizes = [4, 5, 6, 7, 8, 9, 10] # test sizes 
-    execution_times = []
+    avg_times = []
+    trials = 5
 
     for size in sizes:
-        # generate a random graph with the current number of verticies 
-        graph = generate_random_tsp_graph(size, edge_probability=0.5)
-        # measure how long it takes to find the best path 
-        best_path, min_cost, exec_time = measure_tsp_execution_time(graph)
-        # store the execution times 
-        execution_times.append(exec_time)
+        exec_times = []
+        for _ in range(trials): 
+            # generate a random graph with the current number of verticies 
+            graph = generate_random_tsp_graph(size, edge_probability=0.5)
+            exec_time = measure_tsp_execution_time(graph)
+            exec_times.append(exec_time)
+        
+        avg_time = np.mean(exec_times)
+        avg_times.append(avg_time)
+
         # print the size of graph, the best path found and the execution time 
-        print(f"Size: {size}, Best path: {best_path}, Minimum cost: {min_cost}, Execution time: {exec_time:.4f} seconds")
+        print(f"Size: {size}, Execution time: {avg_time:.4f} seconds")
 
     # plot the execution times 
-    plt.plot(sizes, execution_times, marker='o')
+    plt.plot(sizes, avg_times, marker='o')
     plt.title("Traveling Salesman Solver Performance")
     plt.xlabel("Number of vertices")
     plt.ylabel("Execution time (seconds)")
