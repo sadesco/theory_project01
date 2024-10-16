@@ -106,29 +106,6 @@ def plot_times():
 
 def test():
     """
-    Test the solver with a graph that has a Hamiltonian path and one that does not.
-    """
-    # Example 1: A complete graph (which should have a Hamiltonian path)
-    complete_graph = nx.complete_graph(5)
-    complete_matrix = nx.to_numpy_array(complete_graph, dtype=int)
-    complete_paths = measure_time(complete_matrix)
-    if complete_paths:
-        print("Test 1 Passed: Hamiltonian path found in complete graph.")
-    else:
-        print("Test 1 Failed: No Hamiltonian path found in complete graph.")
-
-    # Example 2: A disconnected graph (which should not have a Hamiltonian path)
-    disconnected_graph = nx.Graph()
-    disconnected_graph.add_edges_from([(0, 1), (2, 3)])  # Two disconnected components
-    disconnected_matrix = nx.to_numpy_array(disconnected_graph, dtype=int)
-    disconnected_paths = measure_time(disconnected_matrix)
-    if not disconnected_paths:
-        print("Test 2 Passed: No Hamiltonian path found in disconnected graph.")
-    else:
-        print("Test 2 Failed: Hamiltonian path found in disconnected graph.")
-
-def test():
-    """
     Tests the Hamiltonian path solver with known graphs.
     It checks a graph with a Hamiltonian path and a graph without one.
     """
