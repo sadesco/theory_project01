@@ -98,7 +98,7 @@ def test_tsp():
     for size in sizes:
         exec_times = []
         for _ in range(trials):
-            # generate a random graph with the current number of verticies
+            # gerate a random graph with the current number of verticies
             graph = generate_random_tsp_graph(size, edge_probability=0.5)
             exec_time = measure_tsp_execution_time(graph)
             exec_times.append(exec_time)

@@ -104,7 +104,10 @@ def plot_times():
     plt.grid(True)
     plt.show()
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f3ddcdb1081aba25c00439af7086e90147cde90e
 def test():
     """
     Tests the Hamiltonian path solver with known graphs.
