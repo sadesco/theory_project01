@@ -31,13 +31,6 @@ def hamiltonian_cycles(graph, vertices):
     of the verticies and checks if they form a Hamiltonian cycle. 
 
     """
-    # Convert adjacency matrix back to a NetworkX graph to check connectivity
-    G = nx.from_numpy_array(graph)
-    
-    # Check if the graph is connected
-    if not nx.is_connected(G):
-        return []  # Return no cycles if the graph is disconnected
-    
     n = len(vertices) # number of verticies to loop through 
     cycles = [] # number of successful Hamiltonian cycles 
     
