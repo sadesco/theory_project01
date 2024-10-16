@@ -31,13 +31,6 @@ def hamiltonian_cycles(graph, vertices):
     of the verticies and checks if they form a Hamiltonian cycle. 
 
     """
-    # Convert adjacency matrix back to a NetworkX graph to check connectivity
-    G = nx.from_numpy_array(graph)
-    
-    # Check if the graph is connected
-    if not nx.is_connected(G):
-        return []  # Return no cycles if the graph is disconnected
-    
     n = len(vertices) # number of verticies to loop through 
     cycles = [] # number of successful Hamiltonian cycles 
     
@@ -100,7 +93,7 @@ def measure_time(graph):
     return end_time - start_time
 
 # OPTIMIZATION, DO SEVERAL TESTS FOR EACH SIZE OF GRAPH AND TAKE AN AVERAGE OF EXECUTION TIMES
-def test_solver_performance():
+def test_performance():
     """
     This function tests the performance of the Hamiltonian cycle solver for randomly 
     generated graphs of different sizes.
@@ -110,7 +103,8 @@ def test_solver_performance():
     """
     sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represent the number of verticies 
     avg_times = [] 
-    trials = 5 # number of trials per graph size 
+    all_times = {}
+    trials = 15 # number of trials per graph size 
 
     for size in sizes:
         exec_times = []
@@ -119,6 +113,9 @@ def test_solver_performance():
             graph = random_graph(size, edge_probability=0.5)
             exec_time = measure_time(graph)
             exec_times.append(exec_time)
+
+        # store all execution times for this given size
+        all_times[size] = exec_times
         
         # take the average
         avg_time = np.mean(exec_times)
@@ -128,10 +125,21 @@ def test_solver_performance():
         print(f"Size: {size}, Execution time: {avg_time:.4f} seconds")
 
     # plot 
-    plt.plot(sizes, avg_times, marker='o')
+    plt.figure(figsize=(10, 6)) 
+
+    # scatter plot, use jittered to scatter them so you can see all points
+    for size in sizes:
+        jittered_size = [size + np.random.uniform(-0.1, 0.1) for _ in all_times[size]]
+        plt.scatter(jittered_size, all_times[size], color='blue', alpha=0.6, label='Execution times' if size == sizes[0] else "")
+    
+    # plot average execution times 
+    plt.plot(sizes, avg_times, marker='o', color='red', label='Average execution time')
+
     plt.title("Hamiltonian Cycle Solver Performance")
     plt.xlabel("Number of vertices")
-    plt.ylabel("Average execution time (seconds)")
+    plt.ylabel("Execution time (seconds)")
+    plt.legend()
+    plt.grid(True)
     plt.show()
 
 def test():
@@ -168,7 +176,8 @@ def test():
     else:
         print("Correctly identified no Hamiltonian cycle.")
 
+
 # run the whole program 
 if __name__ == "__main__":
     test() 
-    test_solver_performance()
+    test_performance()
