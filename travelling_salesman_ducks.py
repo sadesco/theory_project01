@@ -124,7 +124,7 @@ def test_tsp():
     # plot average execution times
     plt.plot(sizes, avg_times, marker='o', color='red', label='Average execution time')
 
-    plt.title("Hamiltonian Cycle Solver Performance")
+    plt.title("Traveling Salesman Solver Performance")
     plt.xlabel("Number of vertices")
     plt.ylabel("Execution time (seconds)")
     plt.legend()

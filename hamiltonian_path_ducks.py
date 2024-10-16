@@ -97,17 +97,13 @@ def plot_times():
     # plot average execution times
     plt.plot(sizes, avg_times, marker='o', color='red', label='Average execution time')
 
-    plt.title("Hamiltonian Cycle Solver Performance")
+    plt.title("Hamiltonian Path Solver Performance")
     plt.xlabel("Number of vertices")
     plt.ylabel("Execution time (seconds)")
     plt.legend()
     plt.grid(True)
     plt.show()
 
-<<<<<<< HEAD
-
-=======
->>>>>>> f3ddcdb1081aba25c00439af7086e90147cde90e
 def test():
     """
     Tests the Hamiltonian path solver with known graphs.
