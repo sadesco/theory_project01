@@ -93,7 +93,7 @@ def test_tsp():
     sizes = [4, 5, 6, 7, 8, 9, 10] # sizes that represent the number of verticies
     avg_times = []
     all_times = {}
-    trials = 15 # number of trials per graph size
+    trials = 2 # number of trials per graph size
 
     for size in sizes:
         exec_times = []
@@ -134,31 +134,40 @@ def test_tsp():
 
 def test():
     """
-    Tests the Traveling Salesman solver with known graphs.
-    It checks a small graph with a known optimal path and another graph.
+    Tests the Traveling Salesman solver with known graphs and minimum costs 
+
     """
+    # define the custom graphs and their known minimum costs
+    test_cases = [
+        (np.array([[0, 10, 15, 20],
+                   [10, 0, 35, 25],
+                   [15, 35, 0, 30],
+                   [20, 25, 30, 0]]), 80),  # First test case
 
-    # Test graph with a known optimal path
-    # Graph: 0-1 (10), 0-2 (15), 1-2 (5)
-    graph_with_known_path = np.array([[0, 10, 15],
-                                       [10, 0, 5],
-                                       [15, 5, 0]])
-    vertices_with_known_path = list(range(len(graph_with_known_path)))
-    best_path, min_cost = traveling_salesman(graph_with_known_path, vertices_with_known_path)
+        (np.array([[0, 29, 20, 21],
+                   [29, 0, 15, 17],
+                   [20, 15, 0, 28],
+                   [21, 17, 28, 0]]), 73)   # Second test case
+    ]
 
-    print("Testing graph with a known optimal path:")
-    print(f"Best path: {best_path}, Minimum cost: {min_cost}")
+    # Iterate over each test case and check the result
+    for i, (graph, known_min_cost) in enumerate(test_cases, 1):
+        print(f"Test case {i}:")
 
-    # Test graph with a different configuration
-    # Graph: 0-1 (2), 0-2 (9), 1-2 (6)
-    graph_different = np.array([[0, 2, 9],
-                                 [2, 0, 6],
-                                 [9, 6, 0]])
-    vertices_different = list(range(len(graph_different)))
-    best_path, min_cost = traveling_salesman(graph_different, vertices_different)
+        # List of vertices (0, 1, 2, ..., n-1)
+        vertices = list(range(len(graph)))
 
-    print("Testing graph with a different configuration:")
-    print(f"Best path: {best_path}, Minimum cost: {min_cost}")
+        # Solve TSP for the current graph
+        best_path, min_cost = traveling_salesman(graph, vertices)
+
+        print(f"Calculated min_cost: {min_cost}")
+        print(f"Expected min_cost: {known_min_cost}")
+
+        # Check if the calculated cost matches the known minimum cost
+        if min_cost == known_min_cost:
+            print(f"Test case {i} passed!\n")
+        else:
+            print(f"Test case {i} failed!\n")
 
 
 
